@@ -28,8 +28,12 @@ def ouverture_laspy():
         X=las.x
         Y=las.y
         Z=las.z
+        R=las.red
+        B=las.blue
+        G=las.green
+        
 
-    print("Exemple de coordonnées :", list(zip(X, Y, Z))[:5])
+    print("Exemple de coordonnées :", list(zip(X, Y, Z,R,B,G))[:5])
 
     if hasattr(las, "red"):
         r = las.red
@@ -41,7 +45,7 @@ def ouverture_laspy():
 
 
 
-
+NDVI==(Green - Red)/(Green + Red - Blue)
 
 
 
