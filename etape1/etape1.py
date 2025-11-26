@@ -25,6 +25,20 @@ def ouverture_laspy():
         print('Ground Point Return Number distribution:')
         for r,c in zip(bins,counts):
             print('    {}:{}'.format(r,c))
+        X=las.x
+        Y=las.y
+        Z=las.z
+
+    print("Exemple de coordonnées :", list(zip(X, Y, Z))[:5])
+
+    if hasattr(las, "red"):
+        r = las.red
+        g = las.green
+        b = las.blue
+        print("Couleurs disponibles")
+    else:
+        print("Pas de couleur dans ce fichier")
+
 
 
 
