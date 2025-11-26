@@ -28,9 +28,9 @@ def ouverture_laspy():
         X=las.x
         Y=las.y
         Z=las.z
-        R=las.red
-        B=las.blue
-        G=las.green
+        R=las.red/256
+        B=las.blue/256#couleur via lidar  /256
+        G=las.green//256
         
 
     print("Exemple de coordonnées :", list(zip(X, Y, Z,R,B,G))[:5])
@@ -45,7 +45,7 @@ def ouverture_laspy():
 
 
 
-NDVI==(Green - Red)/(Green + Red - Blue)
+#NDVI==(Green - Red)/(Green + Red - Blue)
 
 
 
