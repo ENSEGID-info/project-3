@@ -3,7 +3,7 @@ import laspy
 import numpy
 import matplotlib
 
-# === Chemin vers ton fichier LAS ===
+# === Chemin vers le fichier LAS ===
 fichier_las = "C:/Alice/2504_SEGO_NewMorvan_subset_filtered_30_percent.las"
 
 
