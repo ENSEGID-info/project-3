@@ -1,9 +1,11 @@
 
 import laspy
+import matplotlib
 import numpy as np
 import matplotlib.pyplot as plt
 from sklearn.cluster import KMeans
 from mpl_toolkits.mplot3d import Axes3D
+
 # === Chemin vers le fichier LAS ===
 fichier_las = "C:/Alice/2504_SEGO_NewMorvan_subset_filtered_30_percent.las"
 fichier_las="H:/Données projet info/Données de la prof/2504_SEGO_NewMorvan_subset_filtered_30_percent.las"
@@ -35,6 +37,7 @@ def etape2_main(data):
     # Exemple : traitement de la donnée
     result = max(data)
     return result
+
 # ============================================================
 # 1) Chargement des points (exemple : fichier ou tableau)
 # ============================================================
