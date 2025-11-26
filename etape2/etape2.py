@@ -1,11 +1,12 @@
 
 import laspy
-import numpy
-import matplotlib
-
+import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.cluster import KMeans
+from mpl_toolkits.mplot3d import Axes3D
 # === Chemin vers le fichier LAS ===
 fichier_las = "C:/Alice/2504_SEGO_NewMorvan_subset_filtered_30_percent.las"
-
+fichier_las="H:/Données projet info/Données de la prof/2504_SEGO_NewMorvan_subset_filtered_30_percent.las"
 
 # === Lecture du fichier ===
 las = laspy.read(fichier_las)
@@ -34,21 +35,13 @@ def etape2_main(data):
     # Exemple : traitement de la donnée
     result = max(data)
     return result
-
-
-
-import numpy as np
-import matplotlib.pyplot as plt
-from sklearn.cluster import KMeans
-from mpl_toolkits.mplot3d import Axes3D
-
 # ============================================================
 # 1) Chargement des points (exemple : fichier ou tableau)
 # ============================================================
 
 # Exemple : chargement depuis un fichier texte "points.xyzrgb"
 # Chaque ligne : x y z r g b
-points = np.loadtxt("points.xyzrgb")
+points = np.loadtxt("las")
 
 coords = points[:, :3]     # X, Y, Z
 colors = points[:, 3:]     # R, G, B
