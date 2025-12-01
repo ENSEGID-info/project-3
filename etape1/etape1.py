@@ -38,6 +38,10 @@ B=las.blue/256
 G=las.green/256
 #plt.plot(X,Y,Z)
 #plt.show()
+
+
+    
+    
         
 
 print("Exemple de coordonnées :", list(zip(X, Y, Z,R,B,G))[:1])
@@ -63,15 +67,56 @@ print(list(point_format.dimension_names))
 
 for k in range (len(X)):
     NDVI=(G[k]-R[k])/(G[k]+R[k]-B[k])
-    if NDVI>0.2:#valeur de référence pour une végétation moderer 
+    if NDVI>0.1:#valeur de référence pour une végétation moderer 
         G[k]=255
         R[k]=0
         B[k]=0
     else :
          None
+         
+C=[]
+for i in range(len(X)):
+    d=[]
+    d.append(R[i]/255)
+    d.append(G[i]/255)
+    d.append(B[i]/255)
+    C.append(d)
+         
+fig = plt.figure()
+ax = fig.add_subplot(111, projection='3d')
+
+ax.scatter(X, Y, Z,c=C, cmap='terrain', s=1)  # scatter 3D
+ax.set_xlabel('X')
+ax.set_ylabel('Y')
+ax.set_zlabel('Z')
+plt.title("Nuage de points 3D")
+plt.show()
+
+         
             
-            
-    
+# import numpy as np
+# import matplotlib.pyplot as plt
+
+# # Créer des données pour les axes x, y et z
+# z = Z
+# x = X
+# y = Y
+
+# # Créer un objet Axes3D pour le graphique 3D
+# plt.figure("Exemple de courbe en 3D")
+# axes = plt.axes(projection="3d")
+# print(axes, type(axes))
+
+# # Tracer les lignes en 3D
+# axes.plot(x, y, z)
+
+# # Ajouter des étiquettes pour les axes
+# axes.set_xlabel("X")
+# axes.set_ylabel("Y")
+# axes.set_zlabel("Z")
+
+# # Afficher le graphique en 3D
+# plt.show()
 
 
 
