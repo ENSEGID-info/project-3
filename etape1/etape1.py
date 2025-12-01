@@ -35,7 +35,7 @@ Z=las.z
 #liste couleur RGB #couleur via lidar  /256
 R=las.red/256
 B=las.blue/256
-G=las.green//256
+G=las.green/256
 #plt.plot(X,Y,Z)
 #plt.show()
         
@@ -60,17 +60,15 @@ point_format = las.point_format
 print(list(point_format.dimension_names))
 
 #NDVI==(Green - Red)/(Green + Red - Blue)
-def coloration():
-    with laspy.open('H:/Données de la prof/2504_SEGO_NewMorvan_subset_filtered_03_percent.las') as fh:
-         las = fh.read()
-    for k in range (len(X)):
-        NDVI=(G[k]-R[k])/(G[k]+R[k]-B[k])
-        if NDVI>0.2:#valeur de référence pour une végétation moderer 
-           G[k]=255
-           R[k]=0
-           B[k]=0
-        else :
-            None
+
+for k in range (len(X)):
+    NDVI=(G[k]-R[k])/(G[k]+R[k]-B[k])
+    if NDVI>0.2:#valeur de référence pour une végétation moderer 
+        G[k]=255
+        R[k]=0
+        B[k]=0
+    else :
+         None
             
             
     
