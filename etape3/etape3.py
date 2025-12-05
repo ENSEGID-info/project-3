@@ -81,7 +81,7 @@ def  profil_ero():
                 Yf.append(y[k])
                 Zf.append(z[k])  
                 plt.scatter(Yf,Zf)
-                plt.scatter(Yf, Zf,s=20,marker='+', alpha=0.7,edgecolor='black')
+                plt.scatter(Yf, Zf,s=20,marker='°', alpha=0.7,edgecolor='black')
         Zf=[]
         Yf=[]
     plt.show()
