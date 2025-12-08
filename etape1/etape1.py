@@ -14,7 +14,7 @@ def etape1_main():
 
 
 def ouverture_laspy():
-    with laspy.open('H:/Données de la prof/2504_SEGO_NewMorvan_subset_filtered_03_percent.las') as fh:
+    with laspy.open('H:/Données de la prof/2504_SEGO_NewMorvan_subset_filtered_03_percent.las') as fh:    
         las = fh.read()
         print('Points from Header:', fh.header.point_count)
        
