@@ -64,17 +64,17 @@ print(list(point_format.dimension_names))
 
 #NDVI==(Green - Red)/(Green + Red - Blue)
 
-# for k in range (len(X)):
-#     NDVI=(G[k]-R[k])/(G[k]+R[k]-B[k])
-#     if Z[k]>1792:
-#         if NDVI>0.1:#valeur de référence pour une végétation moderer 
-#             G[k]=255
-#             R[k]=0
-#             B[k]=0
-#         else :
-#             None
-#     else:
-#         None 
+for k in range (len(X)):
+    NDVI=(G[k]-R[k])/(G[k]+R[k]-B[k])
+    if Z[k]>1792:
+        if NDVI>0.1:#valeur de référence pour une végétation moderer 
+            G[k]=255
+            R[k]=0
+            B[k]=0
+        else :
+            None
+    else:
+        None 
 
          
 C=[]
