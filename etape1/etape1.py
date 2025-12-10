@@ -13,7 +13,7 @@ def etape1_main():
 
 
 def ouverture_laspy():
-    with laspy.open('E:\ENSEGID\Cours\Informatique\project-3/2504_SEGO_NewMorvan_subset_filtered_03_percent.las') as fh:    
+    with laspy.open('H:\Données de la prof/2504_SEGO_NewMorvan_subset_filtered_03_percent.las') as fh:    
         las = fh.read()
         print('Points from Header:', fh.header.point_count)
        
@@ -25,7 +25,7 @@ def ouverture_laspy():
         for r,c in zip(bins,counts):
             print('    {}:{}'.format(r,c))
     return las
-with laspy.open('E:\ENSEGID\Cours\Informatique\project-3/2504_SEGO_NewMorvan_subset_filtered_03_percent.las') as fh:
+with laspy.open('H:\Données de la prof/2504_SEGO_NewMorvan_subset_filtered_03_percent.las') as fh:
       las = fh.read()          
 #liste des cordonnée
 X=las.x
@@ -52,7 +52,7 @@ else:
     print("Pas de couleur dans ce fichier")
 
 #formt d'un point
-with laspy.open('E:\ENSEGID\Cours\Informatique\project-3/2504_SEGO_NewMorvan_subset_filtered_03_percent.las') as fh:
+with laspy.open('H:\Données de la prof/2504_SEGO_NewMorvan_subset_filtered_03_percent.las') as fh:
      las = fh.read()
         
 point_format = las.point_format
