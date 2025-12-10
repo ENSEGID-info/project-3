@@ -98,7 +98,6 @@ def couleur_arbre():
             
 def liste_couleur():
 
-<<<<<<< Updated upstream
     G,R,B= couleur_arbre()
     C=[]
     for i in range(len(G)):
@@ -133,19 +132,6 @@ def affichage():
     plt.title("Nuage de points 3D")
     plt.show()
     return None
-=======
-for k in range (len(X)):
-    NDVI=(G[k]-R[k])/(G[k]+R[k]-B[k])
-    if Z[k]>1792:
-        if NDVI>0.1:       #valeur de référence pour une végétation moderer 
-            G[k]=255
-            R[k]=0
-            B[k]=0
-        else :
-            None
-    else:
-        None 
->>>>>>> Stashed changes
 
          
 C=[]                     #construit une liste c contenant pour chaque point un triplet [R,G,B] normalisé entre 0 et 1
