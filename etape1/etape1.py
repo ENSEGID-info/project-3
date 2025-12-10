@@ -4,6 +4,10 @@ import laspy
 import numpy as np
 import matplotlib.pyplot as plt
 
+# ==================================================
+#        ♥   OUVERTURE DES FICHIERS LASPY   ♥
+# ==================================================
+
 def etape1_main():
     """
     Exécute l'étape 1 du programme.
@@ -60,8 +64,7 @@ def ouverture_laspy():
 
 with laspy.open('H:\Données de la prof/2504_SEGO_NewMorvan_subset_filtered_03_percent.las') as fh:
       las = fh.read()          
-#liste des cordonnée
-X=las.x
+X=las.x              #liste des cordonnées
 Y=las.y
 Z=las.z              
 R=las.red/256        #liste couleur RGB   #couleur via lidar  /256
@@ -95,6 +98,7 @@ def couleur_arbre():
             
 def liste_couleur():
 
+<<<<<<< Updated upstream
     G,R,B= couleur_arbre()
     C=[]
     for i in range(len(G)):
@@ -129,12 +133,25 @@ def affichage():
     plt.title("Nuage de points 3D")
     plt.show()
     return None
+=======
+for k in range (len(X)):
+    NDVI=(G[k]-R[k])/(G[k]+R[k]-B[k])
+    if Z[k]>1792:
+        if NDVI>0.1:       #valeur de référence pour une végétation moderer 
+            G[k]=255
+            R[k]=0
+            B[k]=0
+        else :
+            None
+    else:
+        None 
+>>>>>>> Stashed changes
 
          
-C=[]
+C=[]                     #construit une liste c contenant pour chaque point un triplet [R,G,B] normalisé entre 0 et 1
 for i in range(len(X)):
     d=[]
-    d.append(R[i]/255)
+    d.append(R[i]/255)   #/255 --> affiche couleur LIDAR
     d.append(G[i]/255)
     d.append(B[i]/255)
     C.append(d)
@@ -144,7 +161,7 @@ for i in range(len(X)):
 fig = plt.figure()
 ax = fig.add_subplot(111, projection='3d')          # créer une figure 3D : contient un seul graphique dans la figure
                                                     # trace 1 ligne, 1 colonne, 1 figure
-ax.scatter(X, Y, Z,c=C, cmap='terrain', s=1)    # scatter 3D
+ax.scatter(X, Y, Z,c=C, cmap='terrain', s=1)        # scatter 3D, 'c' définit la couleur de chaque point, 'cmap' donne couleur proche de la topographie (image réelle relief), 's' détermine taille des points : ici '1'-> petits points
 ax.set_xlabel('X')
 ax.set_ylabel('Y')
 ax.set_zlabel('Z')
