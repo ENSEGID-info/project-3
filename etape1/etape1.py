@@ -61,30 +61,29 @@ def ouverture_laspy():
 
 # Lecture du fichier LAS pour extraire ses données
 
-
-with laspy.open('H:\Données de la prof/2504_SEGO_NewMorvan_subset_filtered_03_percent.las') as fh:
-      las = fh.read()          
-X=las.x              #liste des cordonnées
-Y=las.y
-Z=las.z              
-R=las.red/256        #liste couleur RGB   #couleur via lidar  /256
-B=las.blue/256
-G=las.green/256
-#plt.plot(X,Y,Z)
-#plt.show()
+def co():
+    las=ouverture_laspy()
+    X=las.x              #liste des cordonnées
+    Y=las.y
+    Z=las.z              
+    R=las.red/256        #liste couleur RGB   #couleur via lidar  /256
+    B=las.blue/256
+    G=las.green/256
+    return X,Y,Z,R,G,B
 
 
-# Affichage d’un exemple de point (coordonnées + couleurs)
+
+
     
         
-
-print("Exemple de coordonnées :", list(zip(X, Y, Z,R,B,G))[:1])
+def exemple():
+    return("Exemple de coordonnées :", list(zip(co()))[:1])# Affichage d’un exemple de point (coordonnées + couleurs)
    
-#NDVI==(Green - Red)/(Green + Red - Blue)
+
 def couleur_arbre():
     X,Y,Z,R,G,B=co()
     for k in range (len(X)):
-        NDVI=(G[k]-R[k])/(G[k]+R[k]-B[k])
+        NDVI=(G[k]-R[k])/(G[k]+R[k]-B[k])#NDVI==(Green - Red)/(Green + Red - Blue)
         if Z[k]>1792:
             if NDVI>0.1:#valeur de référence pour une végétation moderer 
                 G[k]=255
@@ -99,10 +98,10 @@ def couleur_arbre():
 def liste_couleur():
 
     G,R,B= couleur_arbre()
-    C=[]
+    C=[]                         #construit une liste c contenant pour chaque point un triplet [R,G,B] normalisé entre 0 et 1
     for i in range(len(G)):
         d=[]
-        d.append(R[i]/255)
+        d.append(R[i]/255)#/255 --> affiche couleur LIDAR
         d.append(G[i]/255)
         d.append(B[i]/255)
         C.append(d)
@@ -112,51 +111,30 @@ def sup_points():
     return 
         
 def affichage(): 
-    X,Y,Z,R,G,B=co()       
-    fig = plt.figure()
-    ax = fig.add_subplot(111, projection='3d')
+    X,Y,Z,R,G,B=co()       # Affichage 3D du nuage de points avec coloration NDVI
+    fig = plt.figure()# créer une figure 3D : contient un seul graphique dans la figure
+    ax = fig.add_subplot(111, projection='3d') #trace 1 ligne, 1 colonne, 1 figure
     C=liste_couleur()
 
 
 # Calcul du NDVI sur chaque point :
 # NDVI = (Green - Red) / (Green + Red - Blue)
 # Puis recoloration : si NDVI > 0.1, on colore le point en rouge
-#NDVI==(Green - Red)/(Green + Red - Blue)
-    ax.scatter(X, Y, Z,c=C, cmap='terrain', s=1)     # scatter 3D
-    ax.set_xlabel('X')
+    ax.scatter(X, Y, Z,c=C, cmap='terrain', s=1)    # scatter 3D, 'c' définit la couleur de chaque point, 'cmap' donne couleur proche de la topographie (image réelle relief), 's' détermine taille des points : ici '1'-> petits points
+    ax.set_xlabel('X') 
     ax.set_ylabel('Y')
     ax.set_zlabel('Z')
     elevation_angle = 25            # modifie angle de vue verticalement
     azimuthal_angle = -130            # modifie angle de vue horizontalement
-    ax.view_init(elevation_angle, azimuthal_angle)
+    ax.view_init(elevation_angle, azimuthal_angle)# affichage des modifications
     plt.title("Nuage de points 3D")
     plt.show()
     return None
 
-         
-C=[]                     #construit une liste c contenant pour chaque point un triplet [R,G,B] normalisé entre 0 et 1
-for i in range(len(X)):
-    d=[]
-    d.append(R[i]/255)   #/255 --> affiche couleur LIDAR
-    d.append(G[i]/255)
-    d.append(B[i]/255)
-    C.append(d)
- 
-# Affichage 3D du nuage de points avec coloration NDVI
-            
-fig = plt.figure()
-ax = fig.add_subplot(111, projection='3d')          # créer une figure 3D : contient un seul graphique dans la figure
-                                                    # trace 1 ligne, 1 colonne, 1 figure
-ax.scatter(X, Y, Z,c=C, cmap='terrain', s=1)        # scatter 3D, 'c' définit la couleur de chaque point, 'cmap' donne couleur proche de la topographie (image réelle relief), 's' détermine taille des points : ici '1'-> petits points
-ax.set_xlabel('X')
-ax.set_ylabel('Y')
-ax.set_zlabel('Z')
-elevation_angle = 25                               # modifie angle de vue verticalement
-azimuthal_angle = -130                             # modifie angle de vue horizontalement
-ax.view_init(elevation_angle, azimuthal_angle)     # affichage des modifications
-plt.title("Nuage de points 3D") 
-plt.show()
 
+ 
+
+            
          
             
 
