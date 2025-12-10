@@ -1,5 +1,5 @@
 
-
+import math
 import laspy
 import numpy as np
 import matplotlib.pyplot as plt
@@ -63,12 +63,12 @@ def ouverture_laspy():
 
 def co():
     las=ouverture_laspy()
-    X=las.x              #liste des cordonnées
-    Y=las.y
-    Z=las.z              
-    R=las.red/256        #liste couleur RGB   #couleur via lidar  /256
-    B=las.blue/256
-    G=las.green/256
+    X=np.array(las.x )             #liste des cordonnées
+    Y=np.array(las.y )
+    Z=np.array(las.z )              
+    R=np.array(las.red/256)        #liste couleur RGB   #couleur via lidar  /256
+    B=np.array(las.blue/256)
+    G=np.array(las.green/256)
     return X,Y,Z,R,G,B
 
 
@@ -97,10 +97,6 @@ def couleur_arbre():
             
 def liste_couleur():
 
-<<<<<<< Updated upstream
-=======
-
->>>>>>> Stashed changes
     G,R,B= couleur_arbre()
     C=[]                         #construit une liste c contenant pour chaque point un triplet [R,G,B] normalisé entre 0 et 1
     for i in range(len(G)):
@@ -112,10 +108,27 @@ def liste_couleur():
     return C
 
 def sup_points():
+    X,Y,Z,R,G,B=co()
+    for k in range (len(X)):
+        NDVI=(G[k]-R[k])/(G[k]+R[k]-B[k])#NDVI==(Green - Red)/(Green + Red - Blue)
+        if Z[k]>1792:
+            if NDVI>0.1:#valeur de référence pour une végétation moderer 
+               X.pop(k)
+               Y.pop(k)
+               Z.pop(k)
+               R.pop(k)
+               G.pop(k)
+               B.pop(k)
+            else :
+                None
+        else:
+            None 
+    return X,Y,Z,R,G,B
+    
     return 
         
 def affichage(): 
-    X,Y,Z,R,G,B=co()       # Affichage 3D du nuage de points avec coloration NDVI
+    X,Y,Z,R,G,B=sup_points()       # Affichage 3D du nuage de points avec coloration NDVI
     fig = plt.figure()# créer une figure 3D : contient un seul graphique dans la figure
     ax = fig.add_subplot(111, projection='3d') #trace 1 ligne, 1 colonne, 1 figure
     C=liste_couleur()
@@ -134,22 +147,6 @@ def affichage():
     plt.title("Nuage de points 3D")
     plt.show()
     return None
-<<<<<<< Updated upstream
-=======
-
-for k in range (len(X)):
-    NDVI=(G[k]-R[k])/(G[k]+R[k]-B[k])
-    if Z[k]>1792:
-        if NDVI>0.1:       #valeur de référence pour une végétation moderer 
-            G[k]=255
-            R[k]=0
-            B[k]=0
-        else :
-            None
-    else:
-        None 
-
->>>>>>> Stashed changes
 
 
  
