@@ -13,7 +13,7 @@ def etape1_main():
 
 
 def ouverture_laspy():
-    with laspy.open('H:\Données de la prof/2504_SEGO_NewMorvan_subset_filtered_03_percent.las') as fh:    
+    with laspy.open('E:\ENSEGID\Cours\Informatique\project-3/2504_SEGO_NewMorvan_subset_filtered_03_percent.las') as fh:    
         las = fh.read()
         print('Points from Header:', fh.header.point_count)
        
@@ -25,23 +25,19 @@ def ouverture_laspy():
         for r,c in zip(bins,counts):
             print('    {}:{}'.format(r,c))
     return las
-with laspy.open('H:\Données de la prof/2504_SEGO_NewMorvan_subset_filtered_03_percent.las') as fh:
+with laspy.open('E:\ENSEGID\Cours\Informatique\project-3/2504_SEGO_NewMorvan_subset_filtered_03_percent.las') as fh:
       las = fh.read()          
 #liste des cordonnée
 X=las.x
 Y=las.y
-Z=las.z
-#liste couleur RGB #couleur via lidar  /256
-R=las.red/256
+Z=las.z              
+R=las.red/256        #liste couleur RGB   #couleur via lidar  /256
 B=las.blue/256
 G=las.green/256
 #plt.plot(X,Y,Z)
 #plt.show()
 
 
-    
-    
-        
 
 print("Exemple de coordonnées :", list(zip(X, Y, Z,R,B,G))[:1])
    
@@ -56,7 +52,7 @@ else:
     print("Pas de couleur dans ce fichier")
 
 #formt d'un point
-with laspy.open('H:\Données de la prof/2504_SEGO_NewMorvan_subset_filtered_03_percent.las') as fh:
+with laspy.open('E:\ENSEGID\Cours\Informatique\project-3/2504_SEGO_NewMorvan_subset_filtered_03_percent.las') as fh:
      las = fh.read()
         
 point_format = las.point_format
@@ -86,16 +82,16 @@ for i in range(len(X)):
     C.append(d)
          
 fig = plt.figure()
-ax = fig.add_subplot(111, projection='3d')
-
+ax = fig.add_subplot(111, projection='3d')          # créer une figure 3D : contient un seul graphique dans la figure
+                                                    # trace 1 ligne, 1 colonne, 1 figure
 ax.scatter(X, Y, Z,c=C, cmap='terrain', s=1)    # scatter 3D
 ax.set_xlabel('X')
 ax.set_ylabel('Y')
 ax.set_zlabel('Z')
-elevation_angle = 25            # modifie angle de vue verticalement
-azimuthal_angle = -130            # modifie angle de vue horizontalement
-ax.view_init(elevation_angle, azimuthal_angle)
-plt.title("Nuage de points 3D")
+elevation_angle = 25                               # modifie angle de vue verticalement
+azimuthal_angle = -130                             # modifie angle de vue horizontalement
+ax.view_init(elevation_angle, azimuthal_angle)     # affichage des modifications
+plt.title("Nuage de points 3D") 
 plt.show()
 
          
