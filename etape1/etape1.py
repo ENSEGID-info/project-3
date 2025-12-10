@@ -89,7 +89,8 @@ ax.set_xlabel('X')
 ax.set_ylabel('Y')
 ax.set_zlabel('Z')
 elevation_angle = 25            # modifie angle de vue verticalement
-azimuthal_angle = -130          # modifie angle de vue horizontalement
+azimuthal_angle = -130            # modifie angle de vue horizontalement
+ax.view_init(elevation_angle, azimuthal_angle)
 plt.title("Nuage de points 3D")
 plt.show()
 
