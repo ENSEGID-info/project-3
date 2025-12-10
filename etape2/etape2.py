@@ -109,3 +109,98 @@ ax.set_zlabel("Z")
 
 plt.show()
 
+
+def compute_normals(points, k=30):
+    """Calcule des normales robustes pour chaque point."""
+    neigh = NearestNeighbors(n_neighbors=k).fit(points)
+    _, idx = neigh.kneighbors(points)
+    normals = np.zeros_like(points)
+    for i in range(points.shape[0]):
+        pts = points[idx[i]]
+        pts_centered = pts - pts.mean(axis=0)
+        cov = pts_centered.T @ pts_centered
+        U, _, _ = np.linalg.svd(cov)
+        normals[i] = U[:, -1]
+    norms = np.linalg.norm(normals, axis=1)
+    normals[norms == 0] = [0, 0, 1]
+    normals /= np.maximum(norms[:, None], 1e-9)
+    return normals
+
+def compute_features(coords, Z, normals, k=20):
+    Nx, Ny, Nz = normals[:,0], normals[:,1], normals[:,2]
+    dip = np.arccos(np.clip(np.abs(Nz), 0, 1))
+    azimut = np.arctan2(Ny, Nx)
+
+    # Normalisations sécurisées
+    Z_range = np.ptp(Z)
+    Z_norm = (Z - np.min(Z)) / Z_range if Z_range > 1e-9 else np.zeros_like(Z)
+
+    dip_range = np.ptp(dip)
+    dip_norm = dip / dip_range if dip_range > 1e-9 else np.zeros_like(dip)
+
+    azimut_norm = (azimut + np.pi) / (2*np.pi)  # toujours sûr
+
+    neigh = NearestNeighbors(n_neighbors=k).fit(coords)
+    _, idx = neigh.kneighbors(coords)
+    dZ_local = np.array([np.max(Z[idx[i]]) - np.min(Z[idx[i]]) for i in range(len(coords))])
+    dZ_range = np.ptp(dZ_local)
+    dZ_norm = dZ_local / dZ_range if dZ_range > 1e-9 else np.zeros_like(dZ_local)
+
+    features = np.column_stack((Z_norm, dip_norm, azimut_norm, dZ_norm))
+    mask = ~np.isnan(features).any(axis=1)
+    return features[mask], coords[mask]
+
+
+def perform_clustering(features_clean, n_layers=5, batch_size=5000):
+    """Effectue le clustering MiniBatchKMeans."""
+    kmeans = MiniBatchKMeans(n_clusters=n_layers, batch_size=batch_size)
+    labels = kmeans.fit_predict(features_clean)
+    return labels
+
+def plot_3d_points(coords, labels=None, colors=None, title="3D Points", elev=25, azim=-130, sample_size=200000):
+    """Affiche un nuage de points 3D, avec labels ou couleurs."""
+    sample = min(sample_size, len(coords))
+    idx_s = np.random.choice(len(coords), sample, replace=False)
+    coords_s = coords[idx_s]
+    if labels is not None:
+        labels_s = labels[idx_s]
+        palette = plt.cm.tab10(np.unique(labels_s) % 10)
+        c = palette[labels_s]
+    elif colors is not None:
+        c = colors[idx_s]
+    else:
+        c = 'b'
+
+    fig = plt.figure(figsize=(10, 8))
+    ax = fig.add_subplot(111, projection='3d')
+    ax.scatter(coords_s[:,0], coords_s[:,1], coords_s[:,2], c=c, s=2)
+    ax.set_title(title)
+    ax.set_xlabel("X"); ax.set_ylabel("Y"); ax.set_zlabel("Z")
+    ax.view_init(elev=elev, azim=azim)
+    plt.show()
+
+# ---------------------- Main ----------------------
+
+def main(X, Y, Z, R=None, G=None, B=None, n_layers=5):
+    coords = np.column_stack((X, Y, Z))
+    
+    print("Calcul des normales…")
+    normals = compute_normals(coords)
+
+    print("Calcul des features…")
+    features_clean, coords_clean = compute_features(coords, Z, normals)
+
+    print("Clustering…")
+    labels = perform_clustering(features_clean, n_layers=n_layers)
+
+    print("Affichage du nuage original…")
+    if R is not None and G is not None and B is not None:
+        colors = np.column_stack((R/255, G/255, B/255))
+        plot_3d_points(coords, colors=colors, title="Nuage original coloré")
+    
+    print("Affichage des strates détectées…")
+    plot_3d_points(coords_clean, labels=labels, title="Strates géologiques détectées (géométrie + variation verticale)")
+
+# ---------------------- Exemple d'utilisation ----------------------
+# X, Y, Z, R, G, B = ... (tes données LAS ici)
+# main(X, Y, Z, R, G, B, n_layers=5)
