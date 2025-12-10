@@ -70,14 +70,11 @@ def cluster_and_plot(coords_clean, features_clean, n_layers=5, sample_size=20000
     plt.show()
 
 # ======================= Exécution =======================
-
-coords = np.column_stack((X, Y, Z))
-
+def execution(X,Y,Z):
+    coords = np.column_stack((X, Y, Z))
+    normals = compute_normals(coords)
+    features_clean, coords_clean = compute_features(coords, Z, normals)
+    cluster_and_plot(coords_clean, features_clean)
 print("Calcul des normales…")
-normals = compute_normals(coords)
-
-features_clean, coords_clean = compute_features(coords, Z, normals)
-
-cluster_and_plot(coords_clean, features_clean)
 
 
