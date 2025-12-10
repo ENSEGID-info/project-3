@@ -5,8 +5,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 def etape1_main():
-    print("Exécution de l'étape 1...")
-    # Exemple : lecture d’un fichier ou génération de données
+    print("Exécution de l'étape 1...")            # Exemple : lecture d’un fichier ou génération de données
     data = [1, 2, 3]
     print("Input data is " + str(data) + ".")
     return data
@@ -14,7 +13,7 @@ def etape1_main():
 
 
 def ouverture_laspy():
-    with laspy.open('H:/Données de la prof/2504_SEGO_NewMorvan_subset_filtered_03_percent.las') as fh:
+    with laspy.open('E:\ENSEGID\Cours\Informatique\project-3/2504_SEGO_NewMorvan_subset_filtered_03_percent.las') as fh:    
         las = fh.read()
         print('Points from Header:', fh.header.point_count)
        
@@ -26,7 +25,7 @@ def ouverture_laspy():
         for r,c in zip(bins,counts):
             print('    {}:{}'.format(r,c))
     return las
-with laspy.open('H:/Données de la prof/2504_SEGO_NewMorvan_subset_filtered_03_percent.las') as fh:
+with laspy.open('E:\ENSEGID\Cours\Informatique\project-3/2504_SEGO_NewMorvan_subset_filtered_03_percent.las') as fh:
       las = fh.read()          
 #liste des cordonnée
 X=las.x
@@ -57,7 +56,7 @@ else:
     print("Pas de couleur dans ce fichier")
 
 #formt d'un point
-with laspy.open('H:/Données de la prof/2504_SEGO_NewMorvan_subset_filtered_03_percent.las') as fh:
+with laspy.open('E:\ENSEGID\Cours\Informatique\project-3/2504_SEGO_NewMorvan_subset_filtered_03_percent.las') as fh:
      las = fh.read()
         
 point_format = las.point_format
@@ -76,6 +75,7 @@ for k in range (len(X)):
             None
     else:
         None 
+
          
 C=[]
 for i in range(len(X)):
@@ -88,10 +88,13 @@ for i in range(len(X)):
 fig = plt.figure()
 ax = fig.add_subplot(111, projection='3d')
 
-ax.scatter(X, Y, Z,c=C, cmap='terrain', s=1)  # scatter 3D
+ax.scatter(X, Y, Z,c=C, cmap='terrain', s=1)    # scatter 3D
 ax.set_xlabel('X')
 ax.set_ylabel('Y')
 ax.set_zlabel('Z')
+elevation_angle = 25            # modifie angle de vue verticalement
+azimuthal_angle = -130            # modifie angle de vue horizontalement
+ax.view_init(elevation_angle, azimuthal_angle)
 plt.title("Nuage de points 3D")
 plt.show()
 
