@@ -13,7 +13,7 @@ def etape1_main():
 
 
 def ouverture_laspy():
-    with laspy.open('E:\ENSEGID\Cours\Informatique\project-3/2504_SEGO_NewMorvan_subset_filtered_03_percent.las') as fh:    
+    with laspy.open('H:\Données de la prof/2504_SEGO_NewMorvan_subset_filtered_03_percent.las') as fh:    
         las = fh.read()
         print('Points from Header:', fh.header.point_count)
        
@@ -25,7 +25,7 @@ def ouverture_laspy():
         for r,c in zip(bins,counts):
             print('    {}:{}'.format(r,c))
     return las
-with laspy.open('E:\ENSEGID\Cours\Informatique\project-3/2504_SEGO_NewMorvan_subset_filtered_03_percent.las') as fh:
+with laspy.open('H:\Données de la prof/2504_SEGO_NewMorvan_subset_filtered_03_percent.las') as fh:
       las = fh.read()          
 #liste des cordonnée
 X=las.x
@@ -56,7 +56,7 @@ else:
     print("Pas de couleur dans ce fichier")
 
 #formt d'un point
-with laspy.open('E:\ENSEGID\Cours\Informatique\project-3/2504_SEGO_NewMorvan_subset_filtered_03_percent.las') as fh:
+with laspy.open('H:\Données de la prof/2504_SEGO_NewMorvan_subset_filtered_03_percent.las') as fh:
      las = fh.read()
         
 point_format = las.point_format
@@ -64,17 +64,17 @@ print(list(point_format.dimension_names))
 
 #NDVI==(Green - Red)/(Green + Red - Blue)
 
-for k in range (len(X)):
-    NDVI=(G[k]-R[k])/(G[k]+R[k]-B[k])
-    if Z[k]>1792:
-        if NDVI>0.1:#valeur de référence pour une végétation moderer 
-            G[k]=255
-            R[k]=0
-            B[k]=0
-        else :
-            None
-    else:
-        None 
+# for k in range (len(X)):
+#     NDVI=(G[k]-R[k])/(G[k]+R[k]-B[k])
+#     if Z[k]>1792:
+#         if NDVI>0.1:#valeur de référence pour une végétation moderer 
+#             G[k]=255
+#             R[k]=0
+#             B[k]=0
+#         else :
+#             None
+#     else:
+#         None 
 
          
 C=[]
