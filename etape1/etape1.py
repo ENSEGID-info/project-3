@@ -63,22 +63,14 @@ def ouverture_laspy():
 
 def co():
     las=ouverture_laspy()
-    X=np.array(las.x )             #liste des cordonnées
-    Y=np.array(las.y )
-    Z=np.array(las.z )              
-    R=np.array(las.red/256)        #liste couleur RGB   #couleur via lidar  /256
-    B=np.array(las.blue/256)
-    G=np.array(las.green/256)
+    X=list(las.x)              #liste des cordonnées
+    Y=list(las.y) 
+    Z=list(las.z)           
+    R=list(las.red/256)        #liste couleur RGB   #couleur via lidar  /256
+    B=list(las.blue/256)
+    G=list(las.green/256)
     return X,Y,Z,R,G,B
 
-
-
-
-    
-        
-def exemple():
-    return("Exemple de coordonnées :", list(zip(co()))[:1])# Affichage d’un exemple de point (coordonnées + couleurs)
-   
 
 def couleur_arbre():
     X,Y,Z,R,G,B=co()
@@ -93,11 +85,48 @@ def couleur_arbre():
                 None
         else:
             None 
-    return G,R,B
+    return R,G,B
+
+        
+def exemple():
+    return("Exemple de coordonnées :", list(zip(co()))[:1])# Affichage d’un exemple de point (coordonnées + couleurs)
+   
+
+def couleur_arbre1():
+    X,Y,Z,R,G,B=co()
+    x=[]
+    y=[]
+    z=[]
+    r=[]
+    g=[]
+    b=[]
+    for k in range (len(X)):
+        NDVI=(G[k]-R[k])/(G[k]+R[k]-B[k])#NDVI==(Green - Red)/(Green + Red - Blue)
+        if Z[k]>1792 and NDVI>-0.015:
+            None
+        else:
+            x.append(X[k])
+            y.append(Y[k])
+            z.append(Z[k])
+            r.append(R[k])
+            g.append(G[k])
+            b.append(B[k]) 
+    return x,y,z,r,g,b
             
 def liste_couleur():
 
-    G,R,B= couleur_arbre()
+    R,G,B= couleur_arbre()
+    C=[]                         #construit une liste c contenant pour chaque point un triplet [R,G,B] normalisé entre 0 et 1
+    for i in range(len(G)):
+        d=[]
+        d.append(R[i]/255)#/255 --> affiche couleur LIDAR
+        d.append(G[i]/255)
+        d.append(B[i]/255)
+        C.append(d)
+    return C
+def liste_couleur1():
+
+    x,y,z,R,G,B= couleur_arbre1()
     C=[]                         #construit une liste c contenant pour chaque point un triplet [R,G,B] normalisé entre 0 et 1
     for i in range(len(G)):
         d=[]
@@ -107,33 +136,38 @@ def liste_couleur():
         C.append(d)
     return C
 
-def sup_points():
-    X,Y,Z,R,G,B=co()
-    for k in range (len(X)):
-        NDVI=(G[k]-R[k])/(G[k]+R[k]-B[k])#NDVI==(Green - Red)/(Green + Red - Blue)
-        if Z[k]>1792:
-            if NDVI>0.1:#valeur de référence pour une végétation moderer 
-               X.pop(k)
-               Y.pop(k)
-               Z.pop(k)
-               R.pop(k)
-               G.pop(k)
-               B.pop(k)
-            else :
-                None
-        else:
-            None 
-    return X,Y,Z,R,G,B
-    
-    return 
-        
+
+
+   
+
+
+
 def affichage(): 
-    X,Y,Z,R,G,B=sup_points()       # Affichage 3D du nuage de points avec coloration NDVI
+    X,Y,Z,R,G,B=co()  # Affichage 3D du nuage de points avec coloration NDVI
     fig = plt.figure()# créer une figure 3D : contient un seul graphique dans la figure
     ax = fig.add_subplot(111, projection='3d') #trace 1 ligne, 1 colonne, 1 figure
+    # C=[sup_points()[3],sup_points()[4],sup_points()[5]]
     C=liste_couleur()
+# Calcul du NDVI sur chaque point :
+# NDVI = (Green - Red) / (Green + Red - Blue)
+# Puis recoloration : si NDVI > 0.1, on colore le point en rouge
+    ax.scatter(X, Y, Z,c=C, cmap='terrain', s=1)    # scatter 3D, 'c' définit la couleur de chaque point, 'cmap' donne couleur proche de la topographie (image réelle relief), 's' détermine taille des points : ici '1'-> petits points
+    ax.set_xlabel('X') 
+    ax.set_ylabel('Y')
+    ax.set_zlabel('Z')
+    elevation_angle = 25            # modifie angle de vue verticalement
+    azimuthal_angle = -130            # modifie angle de vue horizontalement
+    ax.view_init(elevation_angle, azimuthal_angle)# affichage des modifications
+    plt.title("Nuage de points 3D")
+    plt.show()
+    return None
 
-
+def affichage1(): 
+    X,Y,Z,R,G,B=couleur_arbre1()  # Affichage 3D du nuage de points avec coloration NDVI
+    fig = plt.figure()# créer une figure 3D : contient un seul graphique dans la figure
+    ax = fig.add_subplot(111, projection='3d') #trace 1 ligne, 1 colonne, 1 figure
+    # C=[sup_points()[3],sup_points()[4],sup_points()[5]]
+    C=liste_couleur1()
 # Calcul du NDVI sur chaque point :
 # NDVI = (Green - Red) / (Green + Red - Blue)
 # Puis recoloration : si NDVI > 0.1, on colore le point en rouge
