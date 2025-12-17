@@ -31,6 +31,8 @@ def main():
     # Étape 3 – Résultats ou affichage final
     print("\n--- Étape 3 : Résultats ou sortie ---")
     etape3.etape3_main(result)
+    inter = etape3.nuage_pt()
+    inter = etape3.profil_ero()
     
     print("\n=== Fin du programme ===")
 
