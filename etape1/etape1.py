@@ -96,11 +96,6 @@ def couleur_arbre():
     return G,R,B
             
 def liste_couleur():
-
-<<<<<<< Updated upstream
-=======
-
->>>>>>> Stashed changes
     G,R,B= couleur_arbre()
     C=[]                         #construit une liste c contenant pour chaque point un triplet [R,G,B] normalisé entre 0 et 1
     for i in range(len(G)):
@@ -134,8 +129,6 @@ def affichage():
     plt.title("Nuage de points 3D")
     plt.show()
     return None
-<<<<<<< Updated upstream
-=======
 
 for k in range (len(X)):
     NDVI=(G[k]-R[k])/(G[k]+R[k]-B[k])
@@ -149,7 +142,7 @@ for k in range (len(X)):
     else:
         None 
 
->>>>>>> Stashed changes
+
 
 
  
