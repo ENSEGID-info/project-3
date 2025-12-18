@@ -20,7 +20,8 @@ def compute_normals(coords, k=30):
 
     norms = np.linalg.norm(normals, axis=1)
     normals[norms == 0] = [0,0,1]
-    normals /= np.maximum(np.linalg.norm(normals, axis=1)[:, None], 1e-9) #on calcule les différentes normales
+    normals /= np.maximum(np.linalg.norm(normals, axis=1)[:, None], 1e-9) 
+    #on calcule les différentes normales
     return normals #on renvoie les normales
 
 
@@ -58,11 +59,13 @@ def compute_features(coords, Z, normals, k=20):
 def cluster_and_plot(coords_clean, features_clean, n_layers=5, sample_size=200000):
     """Effectue le clustering et affiche le résultat."""
     print("Clustering…")
-    kmeans = MiniBatchKMeans(n_clusters=n_layers, batch_size=5000) #utilisation du MiniBatchKmeans aproprié pour un gros jeu de données
+    kmeans = MiniBatchKMeans(n_clusters=n_layers, batch_size=5000) 
+    #utilisation du MiniBatchKmeans aproprié pour un gros jeu de données
     labels = kmeans.fit_predict(features_clean) #utilisation Kmeans 
 
     # Échantillonnage pour affichage
-    sample = min(sample_size, len(coords_clean)) #on décompose en plusieurs échantillons qu'on stocke dans sample
+    sample = min(sample_size, len(coords_clean)) 
+    #on décompose en plusieurs échantillons qu'on stocke dans sample
     idx_s = np.random.choice(len(coords_clean), sample, replace=False) 
     coords_s = coords_clean[idx_s]
     labels_s = labels[idx_s]
