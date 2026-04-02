@@ -36,8 +36,8 @@ import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D  # nécessaire pour les tracés 3D
 
 fig = plt.figure()
-  
-ax = fig.add_subplot(111, projection='3d')
+ax 
+= fig.add_subplot(111, projection='3d')
 
 ax.scatter(x, y, z, c=z, cmap='terrain', s=1)  # scatter 3D
 ax.set_xlabel('X')
@@ -81,7 +81,7 @@ def  profil_ero():
                 Yf.append(y[k])
                 Zf.append(z[k])  
                 plt.scatter(Yf,Zf)
-                plt.scatter(Yf, Zf,s=20,marker='°', alpha=0.7,edgecolor='black')
+                plt.scatter(Yf, Zf,s=80,marker='^', alpha=0.7,edgecolor='black')
         Zf=[]
         Yf=[]
     plt.show()
